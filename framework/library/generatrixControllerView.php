@@ -239,52 +239,74 @@
 							return;
 						}
 
-						$download_file_name = 'app/packages/' . $user . '--' . $repo . '--' . $version . '.tar.gz';
-						$wget_cmd = 'wget -nv ' . $url . ' -O ' . $download_file_name;
-						$wget_output = '';
-						if(file_exists(path('/' . $download_file_name)) && !is_dir(path('/' . $download_file_name))) {
-							display(' - Package has already been downloaded');
+						$file_count = file_exists(path('/app/packages/' . $user . '--' . $repo)) ? shell_exec('find app/packages/' . $user . '--' . $repo . '/ | wc -l') : 0;
+
+						$previous_versions = isset($packages_list[$user_repo]) ? array_keys($packages_list[$user_repo]) : array();
+						$previous_version = (count($previous_versions) > 0) ? $previous_versions[count($previous_versions) - 1] : '';
+
+						if(
+							$previous_version &&
+							(
+								!$this->verifyFiles($packages_list[$user_repo][$previous_version]) ||
+								($file_count != count($packages_list[$user_repo][$previous_version]))
+							)
+						) {
+
+							if($file_count != count($packages_list[$user_repo][$previous_version])) {
+								display(' - You have created some new files in this folder');
+							}
+
+							display(' - This package has been edited. Please remove the custom modifications to proceed');
+							return;
 						} else {
-							display(' + Downloading package from url : ' . $url);
-							$wget_output = shell_exec($wget_cmd);
-						}
 
-						$curr_dir = getcwd();
-						chdir(path('/app/packages'));
+							$download_file_name = 'app/packages/' . $user . '--' . $repo . '--' . $version . '.tar.gz';
+							$wget_cmd = 'wget -nv ' . $url . ' -O ' . $download_file_name;
+							$wget_output = '';
+							if(file_exists(path('/' . $download_file_name)) && !is_dir(path('/' . $download_file_name))) {
+								display(' - Package has already been downloaded');
+							} else {
+								display(' + Downloading package from url : ' . $url);
+								$wget_output = shell_exec($wget_cmd);
+							}
 
-						shell_exec('rm -rf ' . $user . '--' . $repo);
-						display(' + Removing old package if it still exists');
+							$curr_dir = getcwd();
+							chdir(path('/app/packages'));
 
-						$tar_cmd = 'tar xzvf ' . $user . '--' . $repo . '--' . $version . '.tar.gz';
-						$tar_output = shell_exec($tar_cmd);
-						display(' + Unzipping downloaded package');
+							shell_exec('rm -rf ' . $user . '--' . $repo);
+							display(' + Removing old package if it still exists');
 
-						chdir($curr_dir);
+							$tar_cmd = 'tar xzvf ' . $user . '--' . $repo . '--' . $version . '.tar.gz';
+							$tar_output = shell_exec($tar_cmd);
+							display(' + Unzipping downloaded package');
 
-						$lines = explode("\n", $tar_output);
+							chdir($curr_dir);
 
-						$files = array();
-						$folder_name = isset($lines[0]) ? $lines[0] : false;
-						if($folder_name && ($folder_name != '')) {
-							foreach($lines as $line) {
-								$changed_file_name = str_replace($folder_name, $user . '--' . $repo . '/', $line);
-								if($changed_file_name != '') {
-									$files[$changed_file_name] = is_dir(path('/app/packages/' . $line)) ? 0 : filesize(path('/app/packages/' . $line));
+							$lines = explode("\n", $tar_output);
+
+							$files = array();
+							$folder_name = isset($lines[0]) ? $lines[0] : false;
+							if($folder_name && ($folder_name != '')) {
+								foreach($lines as $line) {
+									$changed_file_name = str_replace($folder_name, $user . '--' . $repo . '/', $line);
+									if($changed_file_name != '') {
+										$files[$changed_file_name] = is_dir(path('/app/packages/' . $line)) ? 0 : filesize(path('/app/packages/' . $line));
+									}
 								}
 							}
-						}
-						if(!file_exists(path('/app/packages/' . $user . '--' . $repo))) {
-							rename(path('/app/packages/' . $folder_name), path('/app/packages/' . $user . '--' . $repo));
-							display(' + The package has been successfully installed');
-						} else {
-							display(' - The package has already been installed');
-							return;
-						}
+							if(!file_exists(path('/app/packages/' . $user . '--' . $repo))) {
+								rename(path('/app/packages/' . $folder_name), path('/app/packages/' . $user . '--' . $repo));
+								display(' + The package has been successfully installed');
+							} else {
+								display(' - The package has already been installed');
+								return;
+							}
 
-						$packages_list[$user_repo][$version] = $files;
-						file_put_contents(path('/app/cache/packages.list'), serialize($packages_list));
-						display(' + Updated the list of installed packages');
+							$packages_list[$user_repo][$version] = $files;
+							file_put_contents(path('/app/cache/packages.list'), serialize($packages_list));
+							display(' + Updated the list of installed packages');
 
+						}
 					} else {
 						if(isset($data['error'])) {
 							display(' - ' . $data['error']);
@@ -377,8 +399,8 @@ The most commonly used functions are:
   packages view                 - gets a list of all available packages on github.com
   packages details user:repo    - gets a list of all available packages on github.com
   packages search test          - searches for a particular package on github.com
-	install user:repo							- installs the latest tagged version from github.com
-	remove user:repo							- removes the latest version of the repo from your machine
+  install user:repo             - installs the latest tagged version from github.com
+  remove user:repo              - removes the latest version of the repo from your machine
 			");
 		}
 		public function help() { $this->base(); } 
