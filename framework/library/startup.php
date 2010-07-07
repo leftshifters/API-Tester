@@ -41,7 +41,7 @@
 		if($level == 'error') $background_color = '#D02733';
 		if($level == 'warning') $background_color = '#FF8110';
 		
-		$output = $using_cli ? "" : "<pre style='margin: 2px; padding: 8px 16px; font-size: 12px; border: 1px solid #444444; color: #FFFFFF; font-family: Arial, sans-serif; text-align: left; background-color: " . $background_color . ";'>";
+		$output = $using_cli ? "" : "<pre style='margin: 2px; padding: 8px 16px; border: 1px solid #444444; color: #FFFFFF; font-size: 14px; font-family: \"Trebuchet MS\", Arial, sans-serif; text-align: left; background-color: " . $background_color . ";'>";
 		echo $output;
 
 		$output = '';
