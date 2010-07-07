@@ -165,13 +165,16 @@
 				$content .=  '<script type="text/javascript" src="' . href('/public/javascript/jquery-' . JS_JQUERY . '.min.js') . '"></script>';	
 			}
 
-			if(JS_JQUERY_OFFLINE == '1') {
-				$content .= '<script type="text/javascript" src="' . href('/public/javascript/json.js') . '"></script>';
-				$content .= '<script type="text/javascript" src="' . href('/public/javascript/jquery.offline.js') . '"></script>';
-			}
-
 			if(JS_COOKIE == '1') {
 				$content .= '<script type="text/javascript" src="' . href('/public/javascript/jquery.cookie.min.js') . '"></script>';
+			}
+
+			if(GOOGLE_FONTS != '') {
+				$fonts = GOOGLE_FONTS;
+				$semicolons = explode(';', $fonts);
+				foreach($semicolons as $font) {
+					$content .= '<link href="http://fonts.googleapis.com/css?family=' . trim($font) . '" rel="stylesheet" type="text/css" />';
+				}
 			}
 
 			$content .= "

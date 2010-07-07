@@ -32,6 +32,7 @@
 	"js-ext-core"					: "",
 
 	"js-cookie"						: "false",
-	"js-jquery-offline"		: "false"
+
+	"google-fonts"				: "Droid+Self:regular,italic; Reenie+Beanie"
 
 }
