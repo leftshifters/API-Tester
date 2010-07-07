@@ -7,7 +7,7 @@
 
 		public function setGeneratrix($generatrix) {
 			$this->generatrix = $generatrix;
-			$this->db = $generatrix->getDb();
+			$this->db = $generatrix->getDatabase();
 		}
 
 		public function getDb() {
