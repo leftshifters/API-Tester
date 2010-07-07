@@ -112,7 +112,7 @@ define('SERVICES_JSON_SUPPRESS_ERRORS', 32);
  * $value = $json->decode($input);
  * </code>
  */
-class Services_JSON
+class Services_JSON extends Component
 {
    /**
     * constructs a new JSON instance

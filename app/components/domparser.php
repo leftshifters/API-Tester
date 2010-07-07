@@ -1,8 +1,6 @@
 <?php
 
-	//require_once(DISK_ROOT . 'generatrix/external/curl.php');
-
-	class DomParser {
+	class DomParser extends Component {
 
 		private $curl;
 

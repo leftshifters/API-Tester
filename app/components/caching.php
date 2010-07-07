@@ -1,6 +1,6 @@
 <?php
 
-	class Cache {
+	class Cache extends Component {
 
 		private $location;
 		private $duration;

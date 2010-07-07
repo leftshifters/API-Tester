@@ -5,7 +5,7 @@
 		private $generatrix;
 		private $db;
 
-		public function __construct($generatrix) {
+		public function setGeneratrix($generatrix) {
 			$this->generatrix = $generatrix;
 			$this->db = $generatrix->getDb();
 		}

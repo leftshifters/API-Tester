@@ -1,6 +1,6 @@
 <?php
 
-  class File {
+  class File extends Component {
 
     // Write some data to a file, the permissions are set to w+, can change if you like
     public function write($file_name, $data, $file_permission = "w+") {

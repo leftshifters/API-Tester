@@ -4,7 +4,7 @@
 	// A class for CURL
 	//
 
-	class Curl {
+	class Curl extends Component {
 
 		private $callback = false;
 		private $secure = false;
