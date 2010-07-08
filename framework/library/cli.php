@@ -29,7 +29,7 @@
       }
 
 			// if $_SERVER['argc'] is greater than 0, it's CLI
-      if(isset($_SERVER['argc']) && ($_SERVER['argc'] > 0))
+      if(isset($_SERVER['argc']) && ($_SERVER['argc'] > 1))
         $this->addParameter('enabled', true);
     }
 
