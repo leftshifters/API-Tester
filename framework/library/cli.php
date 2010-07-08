@@ -4,6 +4,8 @@
   // This class is an associative list, used with the comman line interface
   //
 
+	require_once(DISK_ROOT . '/framework/library/assoclist.php');
+
   class Cli extends AssocList {
     public function __construct($argv) {
       $this->setData($argv);
