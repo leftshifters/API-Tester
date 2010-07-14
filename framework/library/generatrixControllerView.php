@@ -239,7 +239,7 @@
 							return;
 						}
 
-						$file_count = file_exists(path('/app/packages/' . $user . '--' . $repo)) ? shell_exec('find app/packages/' . $user . '--' . $repo . '/ | wc -l') : 0;
+						$file_count = file_exists(path('/app/packages/' . $user . '#' . $repo)) ? shell_exec('find app/packages/' . $user . '#' . $repo . '/ | wc -l') : 0;
 
 						$previous_versions = isset($packages_list[$user_repo]) ? array_keys($packages_list[$user_repo]) : array();
 						$previous_version = (count($previous_versions) > 0) ? $previous_versions[count($previous_versions) - 1] : '';
@@ -260,7 +260,7 @@
 							return;
 						} else {
 
-							$download_file_name = 'app/packages/' . $user . '--' . $repo . '--' . $version . '.tar.gz';
+							$download_file_name = 'app/packages/' . $user . '#' . $repo . '#' . $version . '.tar.gz';
 							$wget_cmd = 'wget -nv ' . $url . ' -O ' . $download_file_name;
 							$wget_output = '';
 							if(file_exists(path('/' . $download_file_name)) && !is_dir(path('/' . $download_file_name))) {
@@ -273,10 +273,10 @@
 							$curr_dir = getcwd();
 							chdir(path('/app/packages'));
 
-							shell_exec('rm -rf ' . $user . '--' . $repo);
+							shell_exec('rm -rf ' . $user . '#' . $repo);
 							display(' + Removing old package if it still exists');
 
-							$tar_cmd = 'tar xzvf ' . $user . '--' . $repo . '--' . $version . '.tar.gz';
+							$tar_cmd = 'tar xzvf ' . $user . '#' . $repo . '#' . $version . '.tar.gz';
 							$tar_output = shell_exec($tar_cmd);
 							display(' + Unzipping downloaded package');
 
@@ -288,14 +288,14 @@
 							$folder_name = isset($lines[0]) ? $lines[0] : false;
 							if($folder_name && ($folder_name != '')) {
 								foreach($lines as $line) {
-									$changed_file_name = str_replace($folder_name, $user . '--' . $repo . '/', $line);
+									$changed_file_name = str_replace($folder_name, $user . '#' . $repo . '/', $line);
 									if($changed_file_name != '') {
 										$files[$changed_file_name] = is_dir(path('/app/packages/' . $line)) ? 0 : filesize(path('/app/packages/' . $line));
 									}
 								}
 							}
-							if(!file_exists(path('/app/packages/' . $user . '--' . $repo))) {
-								rename(path('/app/packages/' . $folder_name), path('/app/packages/' . $user . '--' . $repo));
+							if(!file_exists(path('/app/packages/' . $user . '#' . $repo))) {
+								rename(path('/app/packages/' . $folder_name), path('/app/packages/' . $user . '#' . $repo));
 								display(' + The package has been successfully installed');
 							} else {
 								display(' - The package has already been installed');
@@ -368,8 +368,8 @@
 						unset($packages_list[$user . ':' . $repo]);
 						array_values($packages_list);
 
-						shell_exec('rm -rf app/packages/' . $user . '--' . $repo);
-						shell_exec('rm -rf app/packages/' . $user . '--' . $repo .'--*.tar.gz');
+						shell_exec('rm -rf app/packages/' . $user . '#' . $repo);
+						shell_exec('rm -rf app/packages/' . $user . '#' . $repo .'#*.tar.gz');
 						file_put_contents(path('/app/cache/packages.list'), serialize($packages_list));
 						display(' + The package has been successfully removed');
 					} else {

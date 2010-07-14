@@ -69,6 +69,20 @@
     }
   }
 
+	function fileExists($path) {
+		if(file_exists(path($path)) && !is_dir(path($path))) {
+			return true;
+		}
+		return false;
+	}
+
+	function dirExists($path) {
+		if(file_exists(path($path)) && is_dir(path($path))) {
+			return true;
+		}
+		return false;
+	}
+
   // Checks the file permission for a file inside generatrix
   function perms($path) {
     if(file_exists(path($path))) {
@@ -144,5 +158,13 @@
   function prepareExcerpt($text) {
     return prepare(str_replace('&lt;br&gt;', ' ', $text));
   }
+
+	function requirePackage($package, $file) {
+		if(fileExists('/app/packages/' . $package . '/' . $file)) {
+			require_once(path('/app/packages/' . $package . '/' . $file));
+		} else {
+			display_error('The file ' . path('/app/packages/' . $package . '/' . $file) . ' does not exist');
+		}
+	}
 
 ?>
