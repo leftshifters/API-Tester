@@ -16,8 +16,13 @@
 
 		private $added_generated_css;
 
+		public $helper;
+
 		public function __construct() {
 			$this->added_generated_css = false;
+			if(class_exists('viewHelper')) {
+				$this->helper = new viewHelper();
+			}
 		}
 
 		// Get a variable from the controller

@@ -9,8 +9,13 @@
 		private $view;
 		private $is_html;
 
+		public $helper;
+
 		public function __construct() {
 			$this->is_html = true;
+			if(class_exists('controllerHelper')) {
+				$this->helper = new controllerHelper();
+			}
 		}
 
 		public function getP1() {
