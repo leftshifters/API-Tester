@@ -69,6 +69,14 @@
 
 
   // Use timthumb to create smaller iamges
+	function cimage($path, $width = '', $height = '') {
+		if(true == USE_CDN) {
+			return CDN_URI . image($path, $width, $height);
+		} else {
+			return image($path, $width, $height);
+		}
+	}
+
   function image($path, $width = '', $height = '') {
     if(check($path)) {
       return href('/public/scripts/timthumb.phpx?src=' . href($path) . '&w=' . $width . '&h=' . $height);
