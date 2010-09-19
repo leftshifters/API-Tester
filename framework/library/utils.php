@@ -6,6 +6,14 @@
 
   // Creates a link based on the APPLICATION PATH defined in /app/settings/config.json
   // USAGE : href('/app/views/homeView.php');
+	function chref($path) {
+		if(true == USE_CDN) {
+			return CDN_URI . href($path);
+		} else {
+			return href($path);
+		}
+	}
+
   function href($path) {
     $relative_root = '';
     $slashes = explode('/', APPLICATION_ROOT);
@@ -63,7 +71,7 @@
   // Use timthumb to create smaller iamges
   function image($path, $width = '', $height = '') {
     if(check($path)) {
-      return href('/public/scripts/timthumb.php?src=' . href($path) . '&w=' . $width . '&h=' . $height);
+      return href('/public/scripts/timthumb.phpx?src=' . href($path) . '&w=' . $width . '&h=' . $height);
     } else {
       display_error('The image ' . href($path) . ' was not found');
     }

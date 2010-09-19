@@ -1,5 +1,7 @@
 {
-	"application-root"		: "http://localhost:8080/Generatrix/",
+	"application-root"		: "http://clients.vxtindia.net/Generatrix",
+	"cdn-root"						: "http://cdn.clients.vxtindia.net/Generatrix",
+	"use-cdn"							: "false",
 
 	"application-name"		:	"Generatrix",
 	"application-email"		: "admin@site.com",
@@ -33,6 +35,6 @@
 
 	"js-cookie"						: "false",
 
-	"google-fonts"				: "Droid+Self:regular,italic; Reenie+Beanie"
+	"google-fonts"				: ""
 
 }

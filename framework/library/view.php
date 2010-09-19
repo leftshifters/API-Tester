@@ -122,11 +122,11 @@
 			if($is_IE) {
 				return '
 					<!--[if IE]>
-						<link rel="stylesheet" href="' . href($file) . '" type="text/css" media="screen, projection">
+						<link rel="stylesheet" href="' . chref($file) . '" type="text/css" media="screen, projection">
 					<![endif]-->
 				';
 			}
-			return '<link media="screen, projection" type="text/css" href="' . href($file) . '" rel="stylesheet" />';
+			return '<link media="screen, projection" type="text/css" href="' . chref($file) . '" rel="stylesheet" />';
 		}
 
 		private function loadGenerated() {
@@ -138,14 +138,14 @@
 			return "<style type='text/css'>" . $generated_css . "</style>";
 			*/
 			$content = "";
-			$content .= "<link media='screen' type='text/css' href='" . href('/public/style/generated.phpx') . "' rel='stylesheet' />";
+			$content .= "<link media='screen' type='text/css' href='" . chref('/public/style/generated.phpx') . "' rel='stylesheet' />";
 			return $content;
 		}
 
 		// Add a javscript file to <head>
 		private function addJavascript($file) {
 			if(file_exists(path($file)))
-				return '<script type="text/javascript" src="' . href($file) . '"></script>';
+				return '<script type="text/javascript" src="' . chref($file) . '"></script>';
 			else
 				display_system('The file <strong>' . path($file) . '</strong> does not exist');
 		}
@@ -167,11 +167,11 @@
 		private function addGoogleAjaxLibraries() {
 			$content = '';
 			if(JS_JQUERY != '') {
-				$content .=  '<script type="text/javascript" src="' . href('/public/javascript/jquery-' . JS_JQUERY . '.min.js') . '"></script>';	
+				$content .=  '<script type="text/javascript" src="' . chref('/public/javascript/jquery-' . JS_JQUERY . '.min.js') . '"></script>';	
 			}
 
 			if(JS_COOKIE == '1') {
-				$content .= '<script type="text/javascript" src="' . href('/public/javascript/jquery.cookie.min.js') . '"></script>';
+				$content .= '<script type="text/javascript" src="' . chref('/public/javascript/jquery.cookie.min.js') . '"></script>';
 			}
 
 			if(GOOGLE_FONTS != '') {
@@ -185,7 +185,7 @@
 			$content .= "
 				<script type='text/javascript'>
 					var Generatrix = {
-						basepath: '" . href('') . "',
+						basepath: '" . chref('') . "',
 						href: function(path) { return this.basepath + path; },
 						loading: function(where) { $(where).html(\"<img src='\" + this.href('/images/gears.gif') + \"' />\"); },
 						timestamp: function() { var d = new Date(); return d.getTime() / 1000; },
@@ -202,7 +202,7 @@
 			$loadGoogle = false;
 			$content = '<script type="text/javascript" src="http://www.google.com/jsapi"></script>';
 			if(JS_COOKIE) {
-				$content .= '<script type="text/javascript" src="' . href('/public/javascript/jquery.cookie.min.js') . '"></script>';
+				$content .= '<script type="text/javascript" src="' . chref('/public/javascript/jquery.cookie.min.js') . '"></script>';
 			}
 			$content .= '<script type="text/javascript">';
 
