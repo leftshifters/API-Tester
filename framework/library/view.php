@@ -189,7 +189,7 @@
 						use_cdn: " . USE_CDN . ",
 						cbasepath: '" . chref('') . "',
 						href: function(path) { return this.basepath + path; },
-						chref: function(path) { if(use_cdn) { return this.cbasepath + this.href(path) } else { href(path) } },
+						chref: function(path) { if(this.use_cdn) { return this.cbasepath + this.href(path) } else { href(path) } },
 						loading: function(where) { $(where).html(\"<img src='\" + this.href('/images/gears.gif') + \"' />\"); },
 						timestamp: function() { var d = new Date(); return d.getTime() / 1000; },
 						rand: function(max) { return Math.ceil(Math.random() * max); }
