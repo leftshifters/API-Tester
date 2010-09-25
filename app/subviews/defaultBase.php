@@ -5,7 +5,7 @@
 	<div class='span-24'>
 		<div class='span-6'>&nbsp;</div>
 		<div class='span-12'>
-			<a target='_blank' href='http://vxtindia.com/generatrixFramework'><img src='<?php echo cimage('/public/images/generatrix.png') ?>' alt='Generatrix! PHP, Javascript, CSS and the whole shebang#' /></a>
+			<a target='_blank' href='http://vxtindia.com/generatrixFramework'><img src='<?php echo cimage('/public/images/generatrix.png', 500, 150) ?>' alt='Generatrix! PHP, Javascript, CSS and the whole shebang#' /></a>
 		</div>
 		<div class='span-6 last'>&nbsp;</div>
 	</div>

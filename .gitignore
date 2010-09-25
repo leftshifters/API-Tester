@@ -1,3 +1,4 @@
 app/settings/config.json
 app/cache/*.txt
 app/cache/*.cac
+app/cache/images/*
