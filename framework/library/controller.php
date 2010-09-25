@@ -60,7 +60,7 @@
 			return $p4;
 		}
 
-		public function getUploadedFile($tag, $where = '/app/cache/uploads/') {
+		public function getUploadedFile($tag, $where = '/app/cache/uploads/', $allowed = '') {
 			$return = array('error' => false, 'path' => false, 'name' => false);
 
 			$allowed = explode(',', $allowed);
