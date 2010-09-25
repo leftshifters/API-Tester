@@ -1,6 +1,10 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
+		# Redirect users to non WWW url
+		# RewriteCond %{HTTP_HOST} ^www\.vxtindia\.com$ [NC]
+		# RewriteRule ^(.*)$ http://vxtindia.com/$1 [L,R=301]
+
 		# Run .phpx as .php files
 		AddType application/x-httpd-php .phpx
 
