@@ -1,5 +1,13 @@
 <?php
 
+	function multi_str_replace($replace, $haystack) {
+		$content = $haystack;
+		foreach($replace as $original => $changed) {
+			$content = str_replace($original, $changed, $content);
+		}
+		return $content;
+	}
+
   function sanitize($term, $separator = '_') {
     return preg_replace('/-+/', $separator, trim(preg_replace('/[^a-zA-Z0-9]/', $separator, trim(strtolower(str_replace($separator, ' ', $term))) ) ) );
   }
