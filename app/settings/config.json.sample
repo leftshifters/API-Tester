@@ -2,6 +2,7 @@
 	"application-root"		: "http://localhost/Generatrix",
 	"cdn-root"						: "http://cdn.localhost/Generatrix",
 	"use-cdn"							: "false",
+	"mobile-site"					: "true",
 
 	"application-name"		:	"Generatrix",
 	"application-email"		: "admin@site.com",
@@ -31,9 +32,9 @@
 	"js-swfobject"				: "",
 	"js-yui"							: "",
 	"js-ext-core"					: "",
-
 	"js-cookie"						: "false",
+	"google-fonts"				: "",
 
-	"google-fonts"				: ""
+	"title-text"					: ""
 
 }

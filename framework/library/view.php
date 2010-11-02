@@ -113,41 +113,43 @@
 			return $this->getGeneratrix()->getSession()->getValue($tag_name);
 		}
 
-		// Add a CSS file <head>, check for IE condition
-		private function addCss($file, $is_IE = false) {
-			if(!file_exists(path($file))) {
-				display_error('The file <strong>' . path($file) . '</strong> does not exist');
-				return;
-			}
-			if($is_IE) {
-				return '
-					<!--[if IE]>
-						<link rel="stylesheet" href="' . chref($file) . '" type="text/css" media="screen, projection">
-					<![endif]-->
-				';
-			}
-			return '<link media="screen, projection" type="text/css" href="' . chref($file) . '" rel="stylesheet" />';
-		}
-
-		private function loadGenerated() {
-			/*
-			ob_start();
-			require_once(path('/public/style/generated.php'));
-			$generated_css = ob_get_contents();
-			ob_end_clean();
-			return "<style type='text/css'>" . $generated_css . "</style>";
-			*/
-			$content = "";
-			$content .= "<link media='screen' type='text/css' href='" . chref('/public/style/generated.phpx') . "' rel='stylesheet' />";
-			return $content;
-		}
 
 		// Add a javscript file to <head>
-		private function addJavascript($file) {
-			if(file_exists(path($file)))
-				return '<script type="text/javascript" src="' . chref($file) . '"></script>';
-			else
-				display_system('The file <strong>' . path($file) . '</strong> does not exist');
+		public function addJavascript($file) {
+			$outside_link = (strpos($file, 'http://') === false) ? false : true;
+			if(!$outside_link) {
+				if(file_exists(path($file))) {
+					return '<script type="text/javascript" src="' . chref($file) . '"></script>';
+				} else {
+					display_system('The file <strong>' . path($file) . '</strong> does not exist');
+				}
+			} else {
+					return '<script type="text/javascript" src="' . $file . '"></script>';
+			}
+		}
+
+		// Add a CSS file <head>, check for IE condition
+		public function addCss($file, $ie = false, $media = 'screen, projection') {
+			$outside_link = (strpos($file, 'http://') === false) ? false : true;
+			if(!$outside_link) {
+				if(file_exists(path($file))) {
+					return $ie 
+						?  "\n<!--[if IE]>\n<link rel='stylesheet' href='" . chref($file) . "' type='text/css' media='" . $media . "'>\n<![endif]-->"
+						: "<link media='" . $media . "' type='text/css' href='" . chref($file) . "' rel='stylesheet' />";
+				} else {
+					display_error('The file <strong>' . path($file) . '</strong> does not exist');
+				}
+			} else {
+				return $ie 
+					?  "\n<!--[if IE]>\n<link rel='stylesheet' href='" . $file . "' type='text/css' media='" . $media . "'>\n<![endif]-->"
+					: "<link media='" . $media . "' type='text/css' href='" . $file . "' rel='stylesheet' />";
+			}
+		}
+
+
+
+		private function loadGenerated() {
+			return $this->addCss('/public/style/generated.phpx') . $this->addCss('/public/style/generatrix-ie.css', true);
 		}
 
 		// Add the generated css
@@ -155,8 +157,7 @@
 			if(!$this->added_generated_css) {
 				$head = $this->getHead();
 				$head->appendContent(
-					$this->loadGenerated() .
-					$this->addCss('/public/style/generatrix-ie.css', true)
+					$this->loadGenerated()
 				);
 				$this->setHead($head);
 				$this->added_generated_css = true;
@@ -167,45 +168,45 @@
 		private function addGoogleAjaxLibraries() {
 			$content = '';
 			if(JS_JQUERY != '') {
-				$content .=  '<script type="text/javascript" src="' . chref('/public/javascript/jquery-' . JS_JQUERY . '.min.js') . '"></script>';	
+				$content .=  $this->addJavascript('/public/javascript/jquery-' . JS_JQUERY . '.min.js');	
 			}
 
 			if(JS_COOKIE == '1') {
-				$content .= '<script type="text/javascript" src="' . chref('/public/javascript/jquery.cookie.min.js') . '"></script>';
+				$content .= $this->addJavascript('/public/javascript/jquery.cookie.min.js');
 			}
 
 			if(GOOGLE_FONTS != '') {
 				$fonts = GOOGLE_FONTS;
 				$semicolons = explode(';', $fonts);
 				foreach($semicolons as $font) {
-					$content .= '<link href="http://fonts.googleapis.com/css?family=' . trim($font) . '" rel="stylesheet" type="text/css" />';
+					$content .= $this->addCss('http://fonts.googleapis.com/css?family=' . trim($font));
 				}
 			}
 
 			$content .= "
-				<script type='text/javascript'>
-					var Generatrix = {
-						basepath: '" . href('') . "',
-						use_cdn: " . USE_CDN . ",
-						cbasepath: '" . chref('') . "',
-						href: function(path) { return this.basepath + path; },
-						chref: function(path) { if(this.use_cdn) { return this.cbasepath + this.href(path) } else { href(path) } },
-						loading: function(where) { $(where).html(\"<img src='\" + this.href('/images/gears.gif') + \"' />\"); },
-						timestamp: function() { var d = new Date(); return d.getTime() / 1000; },
-						rand: function(max) { return Math.ceil(Math.random() * max); }
-					};
-					String.prototype.trim = function() {
-						return this.replace(/^\s*/, \"\").replace(/\s*$/, \"\");
-					};
-				</script>
+<script type='text/javascript'>
+	var Generatrix = {
+		basepath: '" . href('') . "',
+		use_cdn: " . USE_CDN . ",
+		cbasepath: '" . chref('') . "',
+		href: function(path) { return this.basepath + path; },
+		chref: function(path) { if(this.use_cdn) { return this.cbasepath + this.href(path) } else { href(path) } },
+		loading: function(where) { $(where).html(\"<img src='\" + this.href('/images/gears.gif') + \"' />\"); },
+		timestamp: function() { var d = new Date(); return d.getTime() / 1000; },
+		rand: function(max) { return Math.ceil(Math.random() * max); }
+	};
+	String.prototype.trim = function() {
+		return this.replace(/^\s*/, \"\").replace(/\s*$/, \"\");
+	};
+</script>
 			";
 			$this->getHead()->appendContent($content);
 			//return;
 
 			$loadGoogle = false;
-			$content = '<script type="text/javascript" src="http://www.google.com/jsapi"></script>';
+			$content = $this->addJavascript('http://www.google.com/jsapi');
 			if(JS_COOKIE) {
-				$content .= '<script type="text/javascript" src="' . chref('/public/javascript/jquery.cookie.min.js') . '"></script>';
+				$content .= $this->addJavascript('/public/javascript/jquery.cookie.min.js');
 			}
 			$content .= '<script type="text/javascript">';
 
@@ -213,7 +214,6 @@
 				$loadGoogle = true;
 			}
 
-			//if(JS_JQUERY != '') $content .= 'google.load("jquery", "' . JS_JQUERY . '");';
 			if(JS_JQUERYUI != '') $content .= 'google.load("jquery", "' . JS_JQUERYUI . '");';
 			if(JS_PROTOTYPE != '') $content .= 'google.load("jquery", "' . JS_PROTOTYPE . '");';
 			if(JS_SCRIPTACULOUS != '') $content .= 'google.load("jquery", "' . JS_SCRIPTACULOUS . '");';
@@ -231,8 +231,13 @@
 
 		// Add the libraries
 		private function addLibraries() {
-			$this->addGeneratedCss();
-			$this->addGoogleAjaxLibraries();
+			if(MOBILE_SITE == 1) {
+
+			} else {
+				$this->addGenericHeader();
+				$this->addGeneratedCss();
+				$this->addGoogleAjaxLibraries();
+			}
 		}
 
 		// Public function which adds stuff to the <head> from the view
@@ -259,7 +264,7 @@
 		// Public function to set the title for a page
 		public function title($title) {
 			$head = $this->getHead();
-			$head->appendContent('<title>' . $title . '</title>');
+			$head->appendContent('<title>' . $title . TITLE_TEXT . '</title>');
 			$this->setHead($head);
 		}
 
