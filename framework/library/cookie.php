@@ -2,6 +2,8 @@
 
   // This is the base class for cookies. It turns the cookie varaible in an assoc list so that you can use the AssocList functions
 
+	require_once(DISK_ROOT . '/framework/library/assoclist.php');
+
   class Cookie extends AssocList {
     public function __construct() {
       $cookie = isset($_COOKIE) ? $_COOKIE: '';

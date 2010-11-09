@@ -1,6 +1,7 @@
 <?php
 
+	$arguments = isset($argv) ? $argv : array();
 	require_once('framework/library/generatrix.php');
-	$generatrix = new Generatrix($argv);
+	$generatrix = new Generatrix($arguments);
 
 ?>
