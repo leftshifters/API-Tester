@@ -234,7 +234,6 @@
 			if(MOBILE_SITE == 1) {
 
 			} else {
-				$this->addGenericHeader();
 				$this->addGeneratedCss();
 				$this->addGoogleAjaxLibraries();
 			}
