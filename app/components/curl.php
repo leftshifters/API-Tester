@@ -61,11 +61,11 @@
 			$this->secure = true;
 		}
 
-		public function get($url, $header = 1) {
+		public function get($url, $header = 0) {
 			return $this->doRequest('GET', $url, 'NULL', $header);
 		}
 
-		public function post($url, $vars, $header = 1) {
+		public function post($url, $vars, $header = 0) {
 			return $this->doRequest('POST', $url, $vars, $header);
 		}
 
