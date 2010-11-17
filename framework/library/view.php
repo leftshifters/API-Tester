@@ -146,8 +146,6 @@
 			}
 		}
 
-
-
 		private function loadGenerated() {
 			return $this->addCss('/public/style/generated.phpx') . $this->addCss('/public/style/generatrix-ie.css', true);
 		}
