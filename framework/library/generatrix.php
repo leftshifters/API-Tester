@@ -1,6 +1,6 @@
 <?php
 
-	define('DISK_ROOT', str_replace('framework/library/generatrix.php', '', __FILE__));
+	define('DISK_ROOT', str_replace('framework\library\generatrix.php', '', str_replace('framework/library/generatrix.php', '', __FILE__)));
 
 	require_once(DISK_ROOT . 'framework/library/utils.php');
 	require_once(DISK_ROOT . 'framework/library/startup.php');
