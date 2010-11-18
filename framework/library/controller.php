@@ -18,6 +18,17 @@
 			}
 		}
 
+		public function getSubDomain() {
+			$server_name = checkArray($_SERVER, 'SERVER_NAME') ? $_SERVER['SERVER_NAME'] : false;
+			if($server_name !== false) {
+				$parts = explode('.', $server_name);
+				if(count($parts) >= 3) {
+					return implode('.', array_splice($parts, 0, count($parts) - 2));
+				}
+			}
+			return false;
+		}
+
 		public function getP1() {
 			$url = $this->getURL();
 			$p1 = isset($url[0]) ? mysql_real_escape_string($url[0], $this->getDb()->getConnection()) : false;
