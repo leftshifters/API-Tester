@@ -197,6 +197,23 @@
 		public function isHtml($value = true) {
 			$this->is_html = $value;
 		}
+
+    public function setSessionValue($tag_name, $value) {
+      if ((check($tag_name)) && (!is_array($value)) && (check($value))) {
+        $_SESSION[$tag_name] = trim($value);
+      } else if ((check($tag_name)) && (is_array($value))) {
+        $_SESSION[$tag_name] = $value;
+      } else if ((check($tag_name)) && (($value === FALSE) || ($value === NULL))) {
+        $_SESSION[$tag_name] = $value;
+      }
+    }
+
+    public function removeSessionValue($tag_name) {
+      if ((check($tag_name)) && (checkArray($_SESSION, $tag_name))) {
+        unset($_SESSION[$tag_name]);
+      }
+    }
+
 	}
 
 ?>
