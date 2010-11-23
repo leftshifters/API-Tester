@@ -35,6 +35,10 @@
 	"js-cookie"						: "false",
 	"google-fonts"				: "",
 
-	"title-text"					: ""
+	"title-text"					: "",
+
+	"fb-client-id"				: "178694398814203",
+	"fb-client-secret" 		: "dd843c0c72613e92dbd492b22f7761d1",
+	"fb-redirect-url"			: "http://clients.vxtindia.net/Generatrix/facebook/redirect"
 
 }
