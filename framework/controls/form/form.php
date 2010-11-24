@@ -16,8 +16,11 @@
 		private $float;
 		private $javascript;
 
+		private $rowcount;
+
 		public function __construct($form, $terms = '') {
 			$this->form = json_decode($form, true);
+			$this->rowcount = 0;
 			if(!isset($this->form['elements'][0]['label'])) {
 				display('The JSON could not be parsed. Please check the following JSON at <a href="http://www.jsonlint.com">JSON LINT</a>');
 				display($form);
@@ -27,6 +30,10 @@
 				$this->terms = is_array($terms) ? $terms : array();
 				$this->processForm();
 			}
+		}
+
+		private function sanitize($term) {
+			return preg_replace('/-+/', '_', trim(preg_replace('/[^a-zA-Z0-9]/', '_', trim(strtolower(str_replace('_', ' ', $term))) ) ) );
 		}
 
 		private function processForm() {
@@ -41,6 +48,7 @@
 					$required = checkArray($row, 'required') ? $row['required'] : false;
 					$selected = checkArray($row, 'selected') ? $row['selected'] : false;
 					$subtext = checkArray($row, 'subtext') ? $row['subtext'] : false;
+					$date = checkArray($row, 'date') ? $row['date'] : false;
 
 					if(!$type || !$label) {
 						$label = ($label) ? $label : 'No label set';
@@ -49,7 +57,7 @@
 						switch($type) {
 							case 'text':
 							case 'password':
-								$this->rowText($label, $value, $subtext, $required, $type);
+								$this->rowText($label, $value, $subtext, $required, $type, $date);
 								break;
 							case 'select':
 								$this->rowSelect($label, $value, $subtext, $required, $selected);
@@ -94,8 +102,10 @@
 		private function rowSubmit($label, $value, $required) {
     	$cancel_link = ($value != '') ? href($value) : '';
 
+			$this->rowcount++;
+
 			$html = '';
-			$html .= '<div class="row">';
+			$html .= '<div class="row row-' . $this->rowcount . '">';
 			$html .= '	<div class="label-' . $this->size . '" ' . $this->noFloat() . '>&nbsp;</div>';
 			$html .= '	<div class="element-' . $this->size. '" ' . $this->noFloat() . '>';
 			$html .= '		<input type="submit" name="submit" value="' . $label . '" class="form-input-submit" /> or <a href="' . $cancel_link . '">Cancel</a>';
@@ -106,8 +116,10 @@
 		}
 
 		private function rowHtml($label, $value, $subtext, $required) {
+			$this->rowcount++;
+
 			$html = '';
-			$html .= '<div class="row">';
+			$html .= '<div class="row row' . $this->rowcount . '">';
 			$html .= '	<div class="label-' . $this->size . '" ' . $this->noFloat() . '>';
 			$html .= '		' . $label;
 			$html .= '	</div>';
@@ -126,8 +138,10 @@
 		}
 
 		private function rowCheckbox($label, $value, $subtext, $required, $selected) {
+			$this->rowcount++;
+
 			$html = '';
-			$html .= '<div class="row">';
+			$html .= '<div class="row row' . $this->rowcount . '">';
 			$html .= '	<div class="label-' . $this->size . '" ' . $this->noFloat() . '>';
 			$html .= '		' . $label;
 			if(($label != ' ') && $required) {
@@ -136,7 +150,7 @@
 			$html .= '	</div>';
 			$html .= '	<div class="element-' . $this->size. '" ' . $this->noFloat() . '>';
 			$html .= '		<div class="form-input-html">';
-			$html .= '			<input type="checkbox" id="' . sanitize($value) . '" name="' . sanitize($value) . '" value="" ' . $selected . ' class="" />';
+			$html .= '			<input type="checkbox" id="' . $this->sanitize($value) . '" name="' . $this->sanitize($value) . '" value="" ' . $selected . ' class="" />';
 			$termValue = (checkArray($this->terms, $value)) ? $this->terms[$value] : $value;
 			$html .= '			' . $termValue;
 			$html .= '		</div>';
@@ -150,8 +164,10 @@
 		}
 
 		private function rowSelect($label, $values, $subtext, $required, $selected) {
+			$this->rowcount++;
+
 			$html = '';
-			$html .= '<div class="row">';
+			$html .= '<div class="row row' . $this->rowcount . '">';
 			$html .= '	<div class="label-' . $this->size . '" ' . $this->noFloat() . '>';
 			$html .= '		' . $label;
 			if($required) {
@@ -160,8 +176,9 @@
 			$html .= '	</div>';
 			$html .= '	<div class="element-' . $this->size. '" ' . $this->noFloat() . '>';
 			$html .= '		<div>';
-			$html .= '			<select id="' . sanitize($label) . '" name="' . sanitize($label) . '" class="form-input-text input-' . $this->size . '">';
+			$html .= '			<select id="' . $this->sanitize($label) . '" name="' . $this->sanitize($label) . '" class="form-input-text input-' . $this->size . '">';
 			foreach($values as $key => $value) {
+				if(is_numeric($key)) $key = $value;
 				$select_this = ($value == $selected) ? ' SELECTED ' : '';
 				$html .= '			<option ' . $select_this . ' value="' . $value . '">' . $key . '</option>';
 			}
@@ -177,8 +194,10 @@
 		}
 
 		private function rowFile($label, $value, $subtext, $required) {
+			$this->rowcount++;
+
 			$html = '';
-			$html .= '<div class="row">';
+			$html .= '<div class="row row' . $this->rowcount . '">';
 			$html .= '	<div class="label-' . $this->size . '" ' . $this->noFloat() . '>';
 			$html .= '		' . $label;
 			if($required) {
@@ -187,7 +206,7 @@
 			$html .= '	</div>';
 			$html .= '	<div class="element-' . $this->size . '" ' . $this->noFloat() . '>';
 			$html .= '		<div>';
-			$html .= '			<input type="file" id="' . sanitize($label) . '" name="' . sanitize($label) . '" value="" class="form-input-text input-' . $this->size . '" />';
+			$html .= '			<input type="file" id="' . $this->sanitize($label) . '" name="' . $this->sanitize($label) . '" value="" class="form-input-text input-' . $this->size . '" />';
 			if($value != '') {
 				$actual_value = checkArray($this->terms, $value) ? $this->terms[$value] : $value;
 				$html .= '		<br />' . urldecode($actual_value);
@@ -202,19 +221,25 @@
 			echo $html;
 		}
 
-		private function rowText($label, $value, $subtext, $required, $type) {
+		private function rowText($label, $value, $subtext, $required, $type, $date) {
+			$this->rowcount++;
+
 			$html = '';
-			$html .= '<div class="row">';
+			$html .= '<div class="row row' . $this->rowcount . '">';
 			$html .= '	<div class="label-' . $this->size . '" ' . $this->noFloat() . '>';
 			$html .= '		' . $label;
 			if($required) {
 				$html .= ' *';
 			}
+
+			$value = str_replace('%26lt%3Bbr%26gt%3B', urlencode("\n"), $value);
+
+			$date_input = $date ? ' date_input ' : '';
+
 			$html .= '	</div>';
 			$html .= '	<div class="element-' . $this->size . '" ' . $this->noFloat() . '>';
 			$html .= '		<div>';
-			$value = str_replace('%26lt%3Bbr%26gt%3B', urlencode("\n"), $value);
-			$html .= '			<input type="' . $type . '" id="' . sanitize($label) . '" name="' . sanitize($label) . '" value="' . stripslashes(urldecode($value)) . '" class="form-input-text input-' . $this->size . '" />';
+			$html .= '			<input type="' . $type . '" id="' . $this->sanitize($label) . '" name="' . $this->sanitize($label) . '" value="' . stripslashes(urldecode($value)) . '" class="form-input-text input-' . $this->size . ' ' . $date_input . '" />';
 			$html .= '		</div>';
 			$html .= '		<div class="form-input-subtext">';
 			$html .= '			' . $subtext;
@@ -226,18 +251,22 @@
 		}
 
 		private function rowTextArea($label, $value, $subtext, $required) {
+			$this->rowcount++;
+
 			$html = '';
-			$html .= '<div class="row">';
+			$html .= '<div class="row row' . $this->rowcount . '">';
 			$html .= '	<div class="label-' . $this->size . '" ' . $this->noFloat() . '>';
 			$html .= '		' . $label;
 			if($required) {
 				$html .= ' *';
 			}
+
+			$value = str_replace('%26lt%3Bbr%26gt%3B', urlencode("\n"), $value);
+
 			$html .= '	</div>';
 			$html .= '	<div class="element-' . $this->size . '" ' . $this->noFloat() . '>';
 			$html .= '		<div>';
-			$value = str_replace('%26lt%3Bbr%26gt%3B', urlencode("\n"), $value);
-			$html .= '			<textarea id="' . sanitize($label) . '" name="' . sanitize($label) . '" class="form-input-textarea input-' . $this->size . '">' . stripslashes(urldecode($value)) . '</textarea>';
+			$html .= '			<textarea id="' . $this->sanitize($label) . '" name="' . $this->sanitize($label) . '" class="form-input-textarea input-' . $this->size . '">' . stripslashes(urldecode($value)) . '</textarea>';
 			$html .= '		</div>';
 			$html .= '		<div class="form-input-subtext">';
 			$html .= '			' . $subtext;

@@ -21,7 +21,7 @@
 	function display_error($message, $file = '', $line = '') { display_message($message, $file, $line, 'error'); } 
 	function display_system($message, $file = '', $line = '') { display_message('SYSTEM: ' . $message, $file, $line, 'system'); }
 	function display_404 ($message, $file = '', $line = '') { 
-		if(isset($_SERVER['argc']) && ($_SERVER['argc'] > 1)) {
+		if(isset($_SERVER['argc']) && ($_SERVER['argc'] > 0)) {
 			display("This page does not exist");
 		} else {
 			echo "<div style='width: 600px; margin: 150px auto; text-align: center; background-color: #F7F7F7; border: 10px solid #EEEEEE; padding: 40px 0px; font-family: Georgia; Arial, sans-serif;'>This page does not exist</div>";
@@ -35,7 +35,7 @@
 
 	// This displays an error in php, shows up in red
 	function display_message($message, $file, $line, $level, $dump = false) {
-		$using_cli = (isset($_SERVER['argc']) && ($_SERVER['argc'] > 1)) ? true : false;
+		$using_cli = (isset($_SERVER['argc']) && ($_SERVER['argc'] > 0)) ? true : false;
 
 		$background_color = '#000000';
 		if($level == 'error') $background_color = '#D02733';
