@@ -8,7 +8,7 @@
 		private $client_id = FB_CLIENT_ID;
 		private $client_secret = FB_CLIENT_SECRET;
 		private $authorize_url = 'https://graph.facebook.com/oauth/authorize';
-		private $access_url = 'https://graph.facebook.com/oauth/access_token';
+		private $accesstoken_url = 'https://graph.facebook.com/oauth/access_token';
 		private $graph_url = 'https://graph.facebook.com/';
 		private $redirect_url = FB_REDIRECT_URL;
 
@@ -20,7 +20,7 @@
 		public function __construct() {
 			$params = '?client_id=' . $this->client_id . '&redirect_uri=' . $this->redirect_url;
 			$this->oauth_url = $this->authorize_url . $params . '&scope=' . $this->extendedPermissions();
-			$this->access_url = $this->access_url . $params . '&client_secret=' . $this->client_secret . '&code=';
+			$this->access_url = $this->accesstoken_url . $params . '&client_secret=' . $this->client_secret . '&code=';
 			$this->curl = new Curl();
 		}
 
