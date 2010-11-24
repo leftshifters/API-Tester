@@ -14,6 +14,7 @@
 		private $cookie;
 
 		private $database;
+		private $database_api;
 
 		private $controller;
 		private $method;
@@ -41,6 +42,15 @@
 
 		public function getDatabase() {
 			return $this->database;
+		}
+		
+		public function setDatabaseAPI($database_api) {
+			$this->database_api = $database_api;
+			return $this;
+		}
+		
+		public function getDatabaseAPI() {
+			return $this->database_api;
 		}
 
 		private function debugValues() {

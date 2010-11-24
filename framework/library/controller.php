@@ -165,6 +165,17 @@
 				return $this->getGeneratrix()->getDatabase();
 			}
 		}
+		
+		public function db() {
+			$default_class = $this->getGeneratrix()->getDatabaseApi();
+			if(isset($default_class)) {
+				return $default_class;
+			} else {
+				$database_api = new DbModel($this->getDb());
+				$this->getGeneratrix()->setDatabaseApi($database_api);
+				return $this->getGeneratrix()->getDatabaseAPI();
+			}
+		}
 
 		public function saveCookie($tag, $value) {
 			$this->getGeneratrix()->getCookie()->add($tag, $value);
