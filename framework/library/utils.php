@@ -1,5 +1,9 @@
 <?php
 
+	function hash($string, $length = 6) {
+		return substr(md5($string), 0, $length);
+	}
+
 	function multi_str_replace($replace, $haystack) {
 		$content = $haystack;
 		foreach($replace as $original => $changed) {
