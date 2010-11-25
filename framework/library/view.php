@@ -35,6 +35,14 @@
 			}
 		}
 
+		public function getSafe($var_name) {
+			if($this->hasVariable($var_name)) {
+				return $this->variables[$var_name];
+			} else {
+				return false;
+			}
+		}
+
 		// Set a variable from the controller
 		public function set($var_name, $var_value) {
 			$this->variables[$var_name] = $var_value;
