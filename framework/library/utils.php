@@ -179,6 +179,10 @@
 		}
 	}
 
+	function _h($array, $value1 = false, $value2 = false, $value3 = false, $value4 = false, $value5 = false, $value6 = false, $value7 = false, $value8 = false) {
+		return htmlentities( _g($array, $value1, $value2, $value3, $value4, $value5, $value6, $value7, $value8) ) {
+	}
+
 	// Check if a value inside an array isset and is not null
 	function checkArray($array, $value) {
 		if(is_array($array) && isset($array[$value]) && ($array[$value] != ''))
