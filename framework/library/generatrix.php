@@ -281,7 +281,7 @@
 		private function requireFiles() {
 			// Include all files in the /app/external folder (but not the ones inside sub-folders)
 			$requires_directories = array('app/external');
-			$core_requires = array('framework/library/', 'app/components', 'app/model', 'app/controllers', 'app/views');
+			$core_requires = array('framework/library/', 'app/components', 'app/model', 'app/controllers', 'app/views', 'app/uicomponents');
 
 			$all_requires = array_merge($core_requires, $requires_directories);
 			foreach($all_requires as $dir) {
