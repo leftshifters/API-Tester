@@ -24,6 +24,7 @@
 		if(isset($_SERVER['argc']) && ($_SERVER['argc'] > 1)) {
 			display("This page does not exist");
 		} else {
+			header("HTTP/1.1 404 Not Found");
 			echo "<div style='width: 600px; margin: 150px auto; text-align: center; background-color: #F7F7F7; border: 10px solid #EEEEEE; padding: 40px 0px; font-family: Georgia; Arial, sans-serif;'>This page does not exist</div>";
 		}
 	}
