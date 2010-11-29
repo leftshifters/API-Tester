@@ -203,7 +203,7 @@
 		encode: function (string) { return escape(this._utf8_encode(string)); },
 		decode: function (string) { return this._utf8_decode(unescape(string)); },
 		_utf8_encode : function (string) {
-			string = string.replace(/\r\n/g,'\n');
+			string = string.replace(/" . '\r\n' . "/g,'" . '\n' . "');
 			var utftext = '';
 			for (var n = 0; n < string.length; n++) {
 				var c = string.charCodeAt(n);
