@@ -199,7 +199,7 @@
 		chref: function(path) { if(this.use_cdn) { return this.cbasepath + this.href(path) } else { href(path) } },
 		loading: function(where) { $(where).html(\"<img src='\" + this.href('/images/gears.gif') + \"' />\"); },
 		timestamp: function() { var d = new Date(); return d.getTime() / 1000; },
-		rand: function(max) { return Math.ceil(Math.random() * max); }
+		rand: function(max) { return Math.ceil(Math.random() * max); },
 		encode: function (string) { return escape(this._utf8_encode(string)); },
 		decode: function (string) { return this._utf8_decode(unescape(string)); },
 		_utf8_encode : function (string) {
