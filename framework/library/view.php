@@ -35,6 +35,14 @@
 			}
 		}
 
+		public function view($details = false) {
+			if ( $details === false) {
+				return array_keys($this->variables);
+			} else {
+				return $this->variables;
+			}
+		}
+
 		public function getSafe($var_name) {
 			if($this->hasVariable($var_name)) {
 				return $this->variables[$var_name];
