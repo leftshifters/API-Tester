@@ -156,14 +156,18 @@
 							$view->startPage($controller->isControllerHtml());
 							// Get the final page to be displayed
 							if(version_compare(PHP_VERSION, '5.2.0') >= 0) {
-								$final_page .= $view->$controller_method();
+								$view->$controller_method();
+								$final_page .= $view->endPage();
 							} else {
-								$html_object = $view->$controller_method();
+								$view->$controller_method();
+								$html_object = $view->endPage();
 								if ( is_object ( $html_object ) ) {
 									$final_page .= $html_object->_toString();
 								}
 							}
-							echo $final_page;
+
+							if(!$this->cli->isEnabled())
+								echo $final_page;
 						} else {
 							display_404('The method <strong>"'. $controller_method . '"</strong> in class <strong>"'. $view_class .'"</strong> does not exist');
 						}

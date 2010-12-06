@@ -15,6 +15,7 @@
 		private $control_options;
 
 		private $added_generated_css;
+		private $end_page_called;
 
 		public $helper;
 
@@ -23,6 +24,7 @@
 			if(class_exists('viewHelper')) {
 				$this->helper = new viewHelper();
 			}
+			$this->end_page_called = false;
 		}
 
 		// Get a variable from the controller
@@ -106,17 +108,23 @@
 			$this->setBody(new Body());
 
 			if($is_html) {
+				$this->prepareHead();
 				$this->addLibraries();
 			}
 		}
 
 		// End the page, close the <head> and <body> tags and add them to <html>
 		public function endPage() {
+			// Add google analytics
+			$this->addGoogleAnalytics();
+
+			// Prepare the page
 			$html = new Html();
 			$html->set('lang', 'en');
 			$html->set('class', 'no-js');
 			$html->appendContent($this->getHead());
 			$html->appendContent($this->getBody());
+			$this->end_page_called = true;
 			return $html;
 		}
 
@@ -133,6 +141,25 @@
 		// Get the cookie value
 		public function getSessionValue($tag_name) {
 			return $this->getGeneratrix()->getSession()->getValue($tag_name);
+		}
+
+		public function addGoogleAnalytics() {
+			if( (GOOGLE_ANALYTICS_CODE != '') ) {
+				$this->getHead()->appendContent("
+<script type=\"text/javascript\">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', '" . GOOGLE_ANALYTICS_CODE . "']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+				");
+			}
 		}
 
 
@@ -301,6 +328,25 @@
 			}
 		}
 
+		public function prepareHead() {
+			$content = '';
+			$content .= "<meta charset=\"utf-8\">\n";
+			$content .= "<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\">\n";
+			$content .= "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n";
+
+			if( (APPLICATION_FAVICON != '') && file_exists(path(APPLICATION_FAVICON)) ) {
+				$content .= "<link rel=\"shortcut icon\" href=\"" . APPLICATION_FAVICON . "\">\n";
+			}
+
+			if( (APPLICATION_TOUCH_ICON != '') && file_exists(path(APPLICATION_TOUCH_ICON)) ) {
+				$content .= "<link rel=\"apple-touch-icon\" href=\"" . APPLICATION_TOUCH_ICON . "\">\n";
+			}
+
+			$content .= "<script src=\"" . href("/public/javascript/modernizr-1.6.min.js") . "\"></script>\n";
+
+			$this->getHead()->appendContent($content);
+		}
+
 		// Public function which adds stuff to the <head> from the view
 		public function add($list) {
 			$head = $this->getHead();
@@ -323,9 +369,11 @@
 
 		// Public function to set the title for a page
 		public function title($title) {
-			$head = $this->getHead();
-			$head->appendContent('<title>' . $title . TITLE_TEXT . '</title>');
-			$this->setHead($head);
+			$this->getHead()->appendContent("<title>" . $title . TITLE_TEXT . "</title>\n");
+		}
+
+		public function description($desc) {
+			$this->getHead()->appendContent("<meta name=\"description\" content=\"" . addslashes($desc) . "\">\n");
 		}
 
 		// The function loads the sub views with html in them
