@@ -64,7 +64,18 @@
 
 	// Adds a DTD to the page by default
 	function addDTD() {
-		return "<!DOCTYPE html>";
+		return "<!DOCTYPE html>\n";
+	}
+
+	// Conditional stylesheets vs CSS Hacks answer neither
+	// paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/
+	function conditionalClasses() {
+		$content = '';
+		$content .= "<!--[if lt IE 7 ]> <html lang=\"en\" class=\"no-js ie6\"> <![endif]-->\n";
+		$content .= "<!--[if IE 7 ]>    <html lang=\"en\" class=\"no-js ie7\"> <![endif]-->\n";
+		$content .= "<!--[if IE 8 ]>    <html lang=\"en\" class=\"no-js ie8\"> <![endif]-->\n";
+		$content .= "<!--[if IE 9 ]>    <html lang=\"en\" class=\"no-js ie9\"> <![endif]-->\n";
+		return $content;
 	}
 
 	// Read the json in the config and create defines (eg. 'time-zone' in config creates define('TIME_ZONE', 'value')

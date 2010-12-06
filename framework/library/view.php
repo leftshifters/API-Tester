@@ -113,6 +113,8 @@
 		// End the page, close the <head> and <body> tags and add them to <html>
 		public function endPage() {
 			$html = new Html();
+			$html->set('lang', 'en');
+			$html->set('class', 'no-js');
 			$html->appendContent($this->getHead());
 			$html->appendContent($this->getBody());
 			return $html;

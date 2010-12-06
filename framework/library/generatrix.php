@@ -149,7 +149,8 @@
 							$final_page = '';
 							// If the page is running via CLI (Comman Line Interface) don't show the DTD
 							if(!$this->cli->isEnabled() && $controller->isControllerHtml()) {
-								$final_page = addDTD();
+								$final_page .= addDTD();
+								$final_page .= conditionalClasses();
 							}
 							// Create the header etc
 							$view->startPage($controller->isControllerHtml());
@@ -175,40 +176,6 @@
 			} else {
 				//if(!$this->handleCatchAllRequest())
 					display_404('The class <strong>"' . $controller_class .'"</strong> does not exist');
-			}
-		}
-
-		// NOT USED ANYMORE
-		private function handleCatchAllRequest() {
-			// Catch all controller is used to override the default site.com/controller/function style of writing the URL
-			//		This is required when for example you create a blog where the url is like site.com/this-is-a-post
-			//		Here the controller comes directly from the database and you can't create a controller class of the same name everytime.
-			if(!USE_CATCH_ALL)
-				return false;
-			if(class_exists('catchAllController')) {
-				if(class_exists('catchAllView')) {
-					// Create instances of the controller and view
-					$catchAllController = new catchAllController();
-					$catchAllView = new catchAllView();
-
-					$catchAllController->setGeneratrix($this);
-					$catchAllController->setView($catchAllView);
-					$catchAllView->setGeneratrix($this);
-
-					// Call the base function so that it can decide internally which controller to use
-					$catchAllController->base();
-
-					if(!$this->cli->isEnabled()) {
-						addDTD();
-					}
-					echo $catchAllView->base();
-					// TODO : Add caching for catch all controller
-				} else {
-					display_error('The class <strong>catchAllView</strong> does not exist');
-				}
-				return true;
-			} else {
-				return false;
 			}
 		}
 
