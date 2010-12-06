@@ -36,7 +36,20 @@
 	class defaultController extends Controller {
 
 		public function base() {
+			$json = file_get_contents('http://github.com/api/v2/json/commits/list/vercingetorix/Generatrix/master');
+			$commits = json_decode($json, true);
+			$commits = isset($commits['commits']) ? $commits['commits'] : array();
 
+			$data = array();
+			foreach($commits as $commit) {
+				$author = _g($commit, 'author', 'name');
+				$url = _g($commit, 'url');
+				$time = _g($commit, 'committed_date');
+				$time = getReadableTime( time() - strtotime($time) );
+				$message = _g($commit, 'message');
+				$data[] = array('author' => $author, 'url' => $url, 'time' => $time, 'message' => $message);
+			}
+			$this->set('commits', $data);
 		}
 
 	}
