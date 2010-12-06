@@ -149,7 +149,7 @@
 							$final_page = '';
 							// If the page is running via CLI (Comman Line Interface) don't show the DTD
 							if(!$this->cli->isEnabled() && $controller->isHtml())
-								$final_page = addDTD(DTD_TYPE);
+								$final_page = addDTD();
 							// Create the header etc
 							$view->startPage();
 							// Get the final page to be displayed
@@ -198,7 +198,7 @@
 					$catchAllController->base();
 
 					if(!$this->cli->isEnabled())
-						addDTD(DTD_TYPE);
+						addDTD();
 					echo $catchAllView->base();
 					// TODO : Add caching for catch all controller
 				} else {

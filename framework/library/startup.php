@@ -63,13 +63,8 @@
 	}
 
 	// Adds a DTD to the page by default
-	function addDTD($type = null) {
-		switch($type) {
-			case 'strict':
-				echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\">\n";
-			default:
-				echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">\n";
-		}
+	function addDTD() {
+		echo "<!DOCTYPE html>";
 	}
 
 	// Read the json in the config and create defines (eg. 'time-zone' in config creates define('TIME_ZONE', 'value')
