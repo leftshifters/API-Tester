@@ -206,6 +206,10 @@
 			return $this->getGeneratrix()->getRequestArray();
 		}
 
+		public function isControllerHtml() {
+			return $this->is_html;
+		}
+
 		public function isHtml($value = true) {
 			$this->is_html = $value;
 		}

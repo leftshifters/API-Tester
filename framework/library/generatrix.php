@@ -148,10 +148,11 @@
 
 							$final_page = '';
 							// If the page is running via CLI (Comman Line Interface) don't show the DTD
-							if(!$this->cli->isEnabled() && $controller->isHtml())
+							if(!$this->cli->isEnabled() && $controller->isControllerHtml()) {
 								$final_page = addDTD();
+							}
 							// Create the header etc
-							$view->startPage();
+							$view->startPage($controller->isControllerHtml());
 							// Get the final page to be displayed
 							if(version_compare(PHP_VERSION, '5.2.0') >= 0) {
 								$final_page .= $view->$controller_method();
@@ -197,8 +198,9 @@
 					// Call the base function so that it can decide internally which controller to use
 					$catchAllController->base();
 
-					if(!$this->cli->isEnabled())
+					if(!$this->cli->isEnabled()) {
 						addDTD();
+					}
 					echo $catchAllView->base();
 					// TODO : Add caching for catch all controller
 				} else {

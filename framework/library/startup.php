@@ -64,7 +64,7 @@
 
 	// Adds a DTD to the page by default
 	function addDTD() {
-		echo "<!DOCTYPE html>";
+		return "<!DOCTYPE html>";
 	}
 
 	// Read the json in the config and create defines (eg. 'time-zone' in config creates define('TIME_ZONE', 'value')

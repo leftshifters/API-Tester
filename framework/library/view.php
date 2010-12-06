@@ -101,9 +101,13 @@
 		}
 
 		// Start the page, create <head> and <body> elements
-		public function startPage() {
+		public function startPage($is_html) {
 			$this->setHead(new Head());
 			$this->setBody(new Body());
+
+			if($is_html) {
+				$this->addLibraries();
+			}
 		}
 
 		// End the page, close the <head> and <body> tags and add them to <html>
@@ -297,7 +301,6 @@
 
 		// Public function which adds stuff to the <head> from the view
 		public function add($list) {
-			$this->addLibraries();
 			$head = $this->getHead();
 			$files = (array) json_decode($list, true);
 
