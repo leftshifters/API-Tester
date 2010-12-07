@@ -122,6 +122,11 @@
 			$html = new Html();
 			$html->set('lang', 'en');
 			$html->set('class', 'no-js');
+
+			if(USE_MANIFEST == true) {
+				//$html->set('manifest', href('/cache.manifest'));
+			}
+
 			$html->appendContent($this->getHead());
 			$html->appendContent($this->getBody());
 			$this->end_page_called = true;

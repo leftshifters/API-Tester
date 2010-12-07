@@ -157,11 +157,13 @@
 							// Get the final page to be displayed
 							if(version_compare(PHP_VERSION, '5.2.0') >= 0) {
 								$view->$controller_method();
-								$final_page .= $view->endPage();
+								if($controller->isControllerHtml()) {
+									$final_page .= $view->endPage();
+								}
 							} else {
 								$view->$controller_method();
 								$html_object = $view->endPage();
-								if ( is_object ( $html_object ) ) {
+								if ( is_object($html_object) && $controller->isControllerHtml()  ) {
 									$final_page .= $html_object->_toString();
 								}
 							}
@@ -246,6 +248,12 @@
 				// set the controller and method again (depending on the customHandlers)
 				$details['controller'] = $this->controller;
 				$details['method'] = $this->method;
+			}
+
+			// check for cache.manifest
+			if($details['controller'] == 'cache.manifest') {
+				$details['controller'] = 'cacheManifest';
+				$details['method'] = 'base';
 			}
 
 			return $details;
