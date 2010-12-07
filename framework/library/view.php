@@ -145,19 +145,12 @@
 
 		public function addGoogleAnalytics() {
 			if( (GOOGLE_ANALYTICS_CODE != '') ) {
+				// from here - http://mathiasbynens.be/notes/async-analytics-snippet
 				$this->getHead()->appendContent("
-<script type=\"text/javascript\">
-
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', '" . GOOGLE_ANALYTICS_CODE . "']);
-  _gaq.push(['_trackPageview']);
-
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
-</script>
+<script>var _gaq=[['_setAccount','" . GOOGLE_ANALYTICS_CODE . "'],['_trackPageview']];(function(d,t){
+var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+g.async=1;g.src='//www.google-analytics.com/ga.js';s.parentNode.insertBefore(g,s)
+}(document,'script'))</script>
 				");
 			}
 		}
@@ -168,45 +161,37 @@
 			$outside_link = (strpos($file, 'http://') === false) ? false : true;
 			if(!$outside_link) {
 				if(file_exists(path($file))) {
-					return '<script type="text/javascript" src="' . chref($file) . '"></script>';
+					return '<script src="' . chref($file) . '"></script>' . "\n";
 				} else {
 					display_system('The file <strong>' . path($file) . '</strong> does not exist');
 				}
 			} else {
-					return '<script type="text/javascript" src="' . $file . '"></script>';
+					return '<script src="' . $file . '"></script>' . "\n";
 			}
 		}
 
 		// Add a CSS file <head>, check for IE condition
-		public function addCss($file, $ie = false, $media = 'screen, projection') {
+		public function addCss($file, $media = '') {
 			$outside_link = (strpos($file, 'http://') === false) ? false : true;
+			$media = ($media == '') ? '' : 'media="' . $media . '"';
 			if(!$outside_link) {
 				if(file_exists(path($file))) {
-					return $ie 
-						?  "\n<!--[if IE]>\n<link rel='stylesheet' href='" . chref($file) . "' type='text/css' media='" . $media . "'>\n<![endif]-->"
-						: "<link media='" . $media . "' type='text/css' href='" . chref($file) . "' rel='stylesheet' />";
+					return "<link " . $media . " type='text/css' href='" . chref($file) . "' rel='stylesheet' />" . "\n";
 				} else {
 					display_error('The file <strong>' . path($file) . '</strong> does not exist');
 				}
 			} else {
-				return $ie 
-					?  "\n<!--[if IE]>\n<link rel='stylesheet' href='" . $file . "' type='text/css' media='" . $media . "'>\n<![endif]-->"
-					: "<link media='" . $media . "' type='text/css' href='" . $file . "' rel='stylesheet' />";
+				return "<link " . $media . " type='text/css' href='" . $file . "' rel='stylesheet' />" . "\n";
 			}
-		}
-
-		private function loadGenerated() {
-			return $this->addCss('/public/style/generated.phpx') . $this->addCss('/public/style/generatrix-ie.css', true);
 		}
 
 		// Add the generated css
 		private function addGeneratedCss() {
 			if(!$this->added_generated_css) {
-				$head = $this->getHead();
-				$head->appendContent(
-					$this->loadGenerated()
+				$this->getHead()->appendContent(
+					$this->addCss('/public/style/generatrix-reset.css') .
+					$this->addCss('/public/style/generatrix.css')
 				);
-				$this->setHead($head);
 				$this->added_generated_css = true;
 			}
 		}
@@ -231,7 +216,7 @@
 			}
 
 			$content .= "
-<script type='text/javascript'>
+<script>
 	var Generatrix = {
 		basepath: '" . href('') . "',
 		use_cdn: " . USE_CDN . ",
@@ -297,7 +282,7 @@
 			if(JS_COOKIE) {
 				$content .= $this->addJavascript('/public/javascript/jquery.cookie.min.js');
 			}
-			$content .= '<script type="text/javascript">';
+			$content .= '<script>';
 
 			if( (JS_JQUERYUI != '') || (JS_PROTOTYPE != '') || (JS_SCRIPTACULOUS != '') || (JS_MOOTOOLS != '') || (JS_DOJO != '') || (JS_SWFOBJECT != '') || (JS_YUI != '') || (JS_EXT_CORE != '') ) {
 				$loadGoogle = true;

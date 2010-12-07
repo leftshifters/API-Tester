@@ -27,7 +27,7 @@
 
 	"cache-time"							: "1",
 
-	"google-analytics-code"		: "",
+	"google-analytics-code"		: "UA-347895-26",
 
 	"js-jquery"								: "1.4.4",
 	"js-jqueryui"							: "",
