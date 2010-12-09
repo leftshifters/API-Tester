@@ -144,7 +144,7 @@
 			$html .= '<div class="row row' . $this->rowcount . '">';
 			$html .= '	<div class="label-' . $this->size . '" ' . $this->noFloat() . '>';
 			$html .= '		' . $label;
-			if(($label != ' ') && $required) {
+			if(($label != ' ') && ($required === true)) {
 				$html .= ' *';
 			}
 			$html .= '	</div>';
@@ -170,7 +170,7 @@
 			$html .= '<div class="row row' . $this->rowcount . '">';
 			$html .= '	<div class="label-' . $this->size . '" ' . $this->noFloat() . '>';
 			$html .= '		' . $label;
-			if($required) {
+			if($required === true) {
 				$html .= ' *';
 			}
 			$html .= '	</div>';
@@ -200,7 +200,7 @@
 			$html .= '<div class="row row' . $this->rowcount . '">';
 			$html .= '	<div class="label-' . $this->size . '" ' . $this->noFloat() . '>';
 			$html .= '		' . $label;
-			if($required) {
+			if($required === true) {
 				$html .= ' *';
 			}
 			$html .= '	</div>';
@@ -228,7 +228,7 @@
 			$html .= '<div class="row row' . $this->rowcount . '">';
 			$html .= '	<div class="label-' . $this->size . '" ' . $this->noFloat() . '>';
 			$html .= '		' . $label;
-			if($required) {
+			if($required === true) {
 				$html .= ' *';
 			}
 
@@ -257,7 +257,7 @@
 			$html .= '<div class="row row' . $this->rowcount . '">';
 			$html .= '	<div class="label-' . $this->size . '" ' . $this->noFloat() . '>';
 			$html .= '		' . $label;
-			if($required) {
+			if($required === true) {
 				$html .= ' *';
 			}
 
