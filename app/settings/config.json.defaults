@@ -1,44 +1,51 @@
 {
-	"application-root"		: "http://localhost/Generatrix",
-	"cdn-root"						: "http://cdn.localhost/Generatrix",
-	"use-cdn"							: "false",
-	"mobile-site"					: "true",
+	"application-name"				:	"Generatrix",
+	"application-email"				: "admin@site.com",
+	"application-root"				: "http://localhost/Generatrix",
+	"application-favicon"			: "/favicon.ico",
+	"application-touch-icon"	: "/apple-touch-icon.png",
 
-	"application-name"		:	"Generatrix",
-	"application-email"		: "admin@site.com",
-	"time-zone"						: "Asia/Calcutta",
-	"min-php-version"			: "5.2.0",
+	"default-controller"			:	"default",
+	"use-catch-all"						:	"false",
+	"use-manifest"						: "false",
 
-	"default-controller"	:	"default",
-	"dtd-type"						: "transitional",
-	"debug-values"				: "true",
-	"debug-queries"				: "false",
-	"use-catch-all"				:	"false",
+	"cdn-root"								: "http://cdn.localhost/Generatrix",
+	"use-cdn"									: "false",
 
-	"database-host"				:	"localhost",
-	"database-user"				:	"root",
-	"database-pass"				: "root",
-	"database-name"				:	"generatrix",
-	"database-prefix"			: "",
+	"mobile-site"							: "true",
 
-	"cache-time"					: "1",
+	"time-zone"								: "Asia/Calcutta",
+	"min-php-version"					: "5.2.0",
 
-	"js-jquery"						: "1.4.2",
-	"js-jqueryui"					: "",
-	"js-prototype"				: "",
-	"js-scriptaculous"		: "",
-	"js-mootools"					: "",
-	"js-dojo"							: "",
-	"js-swfobject"				: "",
-	"js-yui"							: "",
-	"js-ext-core"					: "",
-	"js-cookie"						: "false",
-	"google-fonts"				: "",
+	"debug-values"						: "true",
+	"debug-queries"						: "false",
 
-	"title-text"					: "",
+	"database-host"						:	"localhost",
+	"database-user"						:	"root",
+	"database-pass"						: "root",
+	"database-name"						:	"generatrix",
+	"database-prefix"					: "",
 
-	"fb-client-id"				: "178694398814203",
-	"fb-client-secret" 		: "dd843c0c72613e92dbd492b22f7761d1",
-	"fb-redirect-url"			: "http://clients.vxtindia.net/Generatrix/facebook/redirect"
+	"cache-time"							: "1",
+
+	"google-analytics-code"		: "UA-347895-26",
+
+	"js-jquery"								: "1.4.4",
+	"js-jqueryui"							: "",
+	"js-prototype"						: "",
+	"js-scriptaculous"				: "",
+	"js-mootools"							: "",
+	"js-dojo"									: "",
+	"js-swfobject"						: "",
+	"js-yui"									: "",
+	"js-ext-core"							: "",
+	"js-cookie"								: "false",
+	"google-fonts"						: "",
+
+	"title-text"							: "",
+
+	"fb-client-id"						: "178694398814203",
+	"fb-client-secret" 				: "dd843c0c72613e92dbd492b22f7761d1",
+	"fb-redirect-url"					: "http://clients.vxtindia.net/Generatrix/facebook/redirect"
 
 }

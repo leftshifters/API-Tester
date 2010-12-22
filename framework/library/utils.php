@@ -135,6 +135,54 @@
 		return false;
 	}
 
+	function _c($array, $value1 = false, $value2 = false, $value3 = false, $value4 = false, $value5 = false, $value6 = false, $value7 = false, $value8 = false) {
+		if($value8 !== false) {
+			return isset($array[$value1][$value2][$value3][$value4][$value5][$value6][$value7][$value8]) ? true : false;
+		} else if($value7 !== false) {
+			return isset($array[$value1][$value2][$value3][$value4][$value5][$value6][$value7]) ? true : false;
+		} else if($value6 !== false) {
+			return isset($array[$value1][$value2][$value3][$value4][$value5][$value6]) ? true : false;
+		} else if($value5 !== false) {
+			return isset($array[$value1][$value2][$value3][$value4][$value5]) ? true : false;
+		} else if($value4 !== false) {
+			return isset($array[$value1][$value2][$value3][$value4]) ? true : false;
+		} else if($value3 !== false) {
+			return isset($array[$value1][$value2][$value3]) ? true : false;
+		} else if($value2 !== false) {
+			return isset($array[$value1][$value2]) ? true : false;
+		} else if($value1 !== false) {
+			return isset($array[$value1]) ? true : false;
+		} else {
+			return isset($array) ? true : false;
+		}
+	}
+
+	function _g($array, $value1 = false, $value2 = false, $value3 = false, $value4 = false, $value5 = false, $value6 = false, $value7 = false, $value8 = false) {
+		if($value8 !== false) {
+			return isset($array[$value1][$value2][$value3][$value4][$value5][$value6][$value7][$value8]) ? $array[$value1][$value2][$value3][$value4][$value5][$value6][$value7][$value8] : false;
+		} else if($value7 !== false) {
+			return isset($array[$value1][$value2][$value3][$value4][$value5][$value6][$value7]) ? $array[$value1][$value2][$value3][$value4][$value5][$value6][$value7] : false;
+		} else if($value6 !== false) {
+			return isset($array[$value1][$value2][$value3][$value4][$value5][$value6]) ? $array[$value1][$value2][$value3][$value4][$value5][$value6] : false;
+		} else if($value5 !== false) {
+			return isset($array[$value1][$value2][$value3][$value4][$value5]) ? $array[$value1][$value2][$value3][$value4][$value5] : false;
+		} else if($value4 !== false) {
+			return isset($array[$value1][$value2][$value3][$value4]) ? $array[$value1][$value2][$value3][$value4] : false;
+		} else if($value3 !== false) {
+			return isset($array[$value1][$value2][$value3]) ? $array[$value1][$value2][$value3] : false;
+		} else if($value2 !== false) {
+			return isset($array[$value1][$value2]) ? $array[$value1][$value2] : false;
+		} else if($value1 !== false) {
+			return isset($array[$value1]) ? $array[$value1] : false;
+		} else {
+			return isset($array) ? $array : false;
+		}
+	}
+
+	function _h($array, $value1 = false, $value2 = false, $value3 = false, $value4 = false, $value5 = false, $value6 = false, $value7 = false, $value8 = false) {
+		return htmlentities( _g($array, $value1, $value2, $value3, $value4, $value5, $value6, $value7, $value8) );
+	}
+
 	// Check if a value inside an array isset and is not null
 	function checkArray($array, $value) {
 		if(is_array($array) && isset($array[$value]) && ($array[$value] != ''))

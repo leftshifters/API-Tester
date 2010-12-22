@@ -36,17 +36,15 @@
 
 		public function base() {
 			$this->title("Generatrix");
+			$this->description("A PHP5 framework");
 			$this->add('{
 				"css" : [ ],
 				"js" : [ ]
 			}');
 
-			$content = '';
-			$content .= $this->loadSubView('defaultBase');
-
-			$this->getBody()->appendContent($content);
-
-			return $this->endPage();
+			$this->getBody()->appendContent(
+				$this->loadSubView('defaultBase')
+			);
 		}
 
 	}

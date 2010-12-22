@@ -13,8 +13,9 @@
 
 		public function __construct() {
 			$this->is_html = true;
-			if(class_exists('controllerHelper')) {
-				$this->helper = new controllerHelper();
+			if(class_exists('Helper')) {
+				$this->helper = new Helper();
+				$this->helper->setController($this);
 			}
 		}
 
@@ -203,6 +204,10 @@
 
 		public function getURL() {
 			return $this->getGeneratrix()->getRequestArray();
+		}
+
+		public function isControllerHtml() {
+			return $this->is_html;
 		}
 
 		public function isHtml($value = true) {

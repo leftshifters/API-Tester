@@ -24,7 +24,13 @@
 		if(isset($_SERVER['argc']) && ($_SERVER['argc'] > 1)) {
 			display("This page does not exist");
 		} else {
+			header("HTTP/1.1 404 Not Found");
 			echo "<div style='width: 600px; margin: 150px auto; text-align: center; background-color: #F7F7F7; border: 10px solid #EEEEEE; padding: 40px 0px; font-family: Georgia; Arial, sans-serif;'>This page does not exist</div>";
+			// To show error page on Chrome, text needs to be bigger than 512 bytes, so just repeating
+			echo "<div style='display: none;'>";
+			echo "<div style='width: 600px; margin: 150px auto; text-align: center; background-color: #F7F7F7; border: 10px solid #EEEEEE; padding: 40px 0px; font-family: Georgia; Arial, sans-serif;'>Chrome does not show your error page if the content size is lesser than 512 bytes, hence we have had to take this extreme step.</div>";
+			echo "<div style='width: 600px; margin: 150px auto; text-align: center; background-color: #F7F7F7; border: 10px solid #EEEEEE; padding: 40px 0px; font-family: Georgia; Arial, sans-serif;'>This page really does not exist</div>";
+			echo "</div>";
 		}
 	}
 
@@ -57,13 +63,19 @@
 	}
 
 	// Adds a DTD to the page by default
-	function addDTD($type = null) {
-		switch($type) {
-			case 'strict':
-				echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\">\n";
-			default:
-				echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">\n";
-		}
+	function addDTD() {
+		return "<!DOCTYPE html>\n";
+	}
+
+	// Conditional stylesheets vs CSS Hacks answer neither
+	// paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/
+	function conditionalClasses() {
+		$content = '';
+		$content .= "<!--[if lt IE 7 ]> <html lang=\"en\" class=\"no-js ie6\"> <![endif]-->\n";
+		$content .= "<!--[if IE 7 ]>    <html lang=\"en\" class=\"no-js ie7\"> <![endif]-->\n";
+		$content .= "<!--[if IE 8 ]>    <html lang=\"en\" class=\"no-js ie8\"> <![endif]-->\n";
+		$content .= "<!--[if IE 9 ]>    <html lang=\"en\" class=\"no-js ie9\"> <![endif]-->\n";
+		return $content;
 	}
 
 	// Read the json in the config and create defines (eg. 'time-zone' in config creates define('TIME_ZONE', 'value')
