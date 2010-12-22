@@ -13,7 +13,7 @@
 				return true;
 			return false;
 		}
-
+		
 		// Check if the particular key has a value
 		public function hasValue($key) {
 			if(isset($this->parameters[$key]) && ($this->parameters[$key] != ''))
