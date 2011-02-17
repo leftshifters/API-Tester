@@ -20,7 +20,7 @@
 	class apiView extends View {
 
 		public function base() {
-			$this->title("API Tester"); // Any common text should be added to app/settings/config.json in title-text
+			$this->title("Testrix | API Testing Tool | Vercingetorix Technologies"); // Any common text should be added to app/settings/config.json in title-text
 			$this->description("This will help you test your APIs");
 			$this->add('{ "css" : [ ], "js" : [ ] }');
 
