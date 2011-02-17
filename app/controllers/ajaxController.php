@@ -49,15 +49,14 @@
 
 			$url = isset($_GET['domain']) ? $_GET['domain'] : false;
 			$post = isset($_GET['post']) ? $_GET['post'] : false;
+			$file = isset($_GET['file']) ? $_GET['file'] : false;
 
-			$time = isset($_SESSION['time']) ? $_SESSION['time'] : false;
-			if($time === false) {
-				$time = time();
-				$_SESSION['time'] = $time;
+			if($file === false) {
+				$file = substr(md5(time() . 'rand'), 0, 6);
 			}
 
 			$c = new Curl();
-			$c->setUserCookie('/app/cache/curl-cookie' . $time . '.txt');
+			$c->setUserCookie('/app/cache/curl-cookie-' . $file . '.txt');
 
 			$data = '';
 			if($post) {

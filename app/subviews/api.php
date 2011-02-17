@@ -10,19 +10,13 @@
 	$(document).ready(function() {
 		$('#submit').click(function() {
 			$('#submit').val('Fetching Data ...');
-			$.getJSON('/API-Tester/ajax/fetch', { domain: $('#url').val(), post: $('#post').val() }, function(data) {
+			$.getJSON('/API-Tester/ajax/fetch', { domain: $('#url').val(), post: $('#post').val(), file: $('#file').val() }, function(data) {
 				if(data.result == 'success') {
 					$('#headers').val(data.value);
 				} else {
 					$('#headers').val('The request failed');
 				}
 				$('#submit').val('Fetch Data');
-			});
-		});
-		$('#clear').click(function() {
-			$('#clear').val('Clearing Session & Cookies ...');
-			$.getJSON('/API-Tester/ajax/clear', {}, function() {
-				$('#clear').val('Clear Session & Cookies');
 			});
 		});
 	});
@@ -36,7 +30,22 @@
 	<div class='subtext'>eg. uid=123&tid=456 or you can leave it empty</div>
 	<div><input type='text' id='post' value='' class='input' /></div>
 
-	<div class='subtext'><input type='submit' id='submit' value='Fetch Data' class='submit' /> or <input type='submit' id='clear' value='Clear Session & Cookies' class='submit' /></div>
+	<?php
+		$num = substr(md5(time() . 'rand'), 0, 6);
+		$older_values = '';
+		if( isset($_SESSION['files']) && (count($_SESSION['files']) > 0) ) {
+			$_SESSION['files'][] = $num;
+			$_SESSION['files'] = array_slice($_SESSION['files'], -5);
+			$older_values = implode(', ', $_SESSION['files']);
+		} else {
+			$_SESSION['files'] = array();
+			$_SESSION['files'][] = $num;
+			$older_values = '(none)';
+		}
+	?>
+					<div class='subtext'>This is your cookie file id. To send requests using a different session, please change this id. If you want to use the same session later, please remember this id.<br />The last few values used were : <?php echo $older_values ?>. You can view your cookie file here : <a target='_blank' href='<?php echo href('/app/cache/curl-cookie-' . $num . '.txt') ?>'>curl-cookie-<?php echo $num ?>.txt</a></div>
+	<div><input type='text' id='file' value='<?php echo substr(md5(time() . 'rand'), 0, 6) ?>' class='input' /></div>
+	<div class='subtext'><input type='submit' id='submit' value='Fetch Data' class='submit' /></div>
 
 </div>
 <div class='heading'>
