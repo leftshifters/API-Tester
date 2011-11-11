@@ -10,7 +10,7 @@
 	$(document).ready(function() {
 		$('#submit').click(function() {
 			$('#submit').val('Fetching Data ...');
-			$.getJSON('/API-Tester/ajax/fetch', { domain: $('#url').val(), post: $('#post').val(), file: $('#file').val() }, function(data) {
+			$.getJSON(Generatrix.basepath + '/ajax/fetch', { domain: $('#url').val(), post: $('#post').val(), file: $('#file').val() }, function(data) {
 				if(data.result == 'success') {
 					$('#headers').val(data.value);
 				} else {
