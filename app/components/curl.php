@@ -69,6 +69,10 @@
 			return $this->doRequest('POST', $url, $vars, $header);
 		}
 
+		public function setHeader($header) {
+			curl_setopt($this->connection, CURLOPT_HTTPHEADER, array($header));
+		}
+
 		public function setUserAgent($string) {
 			$this->user_agent = $string;
 		}
